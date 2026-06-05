@@ -28,6 +28,8 @@ function startGame() {
 }
 
 function loadRoom(index: number) {
+    transitions.fadeToBlack(350)
+    pause(350)
     destroyRoomSprites()
     if (index === 0) {
         tiles.setTilemap(assets.tilemap`wakingRoom`)
@@ -44,6 +46,7 @@ function loadRoom(index: number) {
     scene.onOverlapTile(SpriteKind.Player, assets.tile`exitPoint`, function (sprite, location) {
         tryProgressToNextRoom()
     })
+    transitions.fadeFromBlack(350)
 }
 
 function loadRoomByName(name: string) {
