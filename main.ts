@@ -6,6 +6,7 @@ let memoriesCount = 0
 let specimensCount = 0
 let keysHeld: boolean[] = []
 let hasEscapeKey = false
+let roomSprites: Sprite[] = []
 
 const ROOM_ENTRY_X = 20
 const ROOM_ENTRY_Y = 60
@@ -27,8 +28,33 @@ function startGame() {
 }
 
 function loadRoom(index: number) {
-    // stubbed — implemented in Task 3
-    game.splash("Room " + index, "loading...")
+    destroyRoomSprites()
+    if (index === 0) {
+        tiles.setTilemap(assets.tilemap`wakingRoom`)
+    } else if (index <= 6) {
+        loadRoomByName(Rooms.roomOrder[index - 1])
+    } else {
+        tiles.setTilemap(assets.tilemap`deepVault`)
+    }
+    currentRoomIndex = index
+    if (playerSprite) {
+        playerSprite.setPosition(ROOM_ENTRY_X, ROOM_ENTRY_Y)
+    }
+    Rooms.spawnRoomObjects(index)
+}
+
+function loadRoomByName(name: string) {
+    if      (name === "specimenHall") tiles.setTilemap(assets.tilemap`specimenHall`)
+    else if (name === "study")        tiles.setTilemap(assets.tilemap`study`)
+    else if (name === "workshop")     tiles.setTilemap(assets.tilemap`workshop`)
+    else if (name === "gallery")      tiles.setTilemap(assets.tilemap`gallery`)
+    else if (name === "greenhouse")   tiles.setTilemap(assets.tilemap`greenhouse`)
+    else if (name === "records")      tiles.setTilemap(assets.tilemap`records`)
+}
+
+function destroyRoomSprites() {
+    for (const s of roomSprites) s.destroy()
+    roomSprites = []
 }
 
 function tryProgressToNextRoom() {

@@ -20,7 +20,15 @@ namespace Player {
             . . . . . . . . . . . . . . . .
         `, SpriteKind.Player)
         playerSprite.setPosition(ROOM_ENTRY_X, ROOM_ENTRY_Y)
+        playerSprite.setStayInScreen(false)
         scene.cameraFollowSprite(playerSprite)
+
+        controller.moveSprite(playerSprite, 60, 60)
+        playerSprite.setFlag(SpriteFlag.StayInScreen, false)
+
+        controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+            interactWithNearest()
+        })
     }
 
     export function interactWithNearest() {
