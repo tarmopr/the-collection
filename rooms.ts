@@ -69,6 +69,23 @@ namespace Rooms {
 
     export function spawnRoomObjects(index: number) {
         clearActiveObjects()
-        // Room-specific objects spawned in Tasks 11-18
+        if (index === 0) spawnWakingRoom()
+        else if (index >= 1 && index <= 6) spawnMiddleRoom(roomOrder[index - 1], index - 1)
+        else if (index === 7) spawnDeepVault()
+    }
+
+    function spawnWakingRoom() {
+        // Broken jar — tutorial interaction, shows label text (Fragment 0 special case)
+        spawnInteractable(48, 64, ObjectKind.Memory, 0)
+        // Key on hook — keysHeld[0] opens door 2 (first middle room)
+        spawnInteractable(128, 96, ObjectKind.Key, 0)
+    }
+
+    function spawnMiddleRoom(name: string, keyIndex: number) {
+        // Stubbed — filled in Tasks 12-17
+    }
+
+    function spawnDeepVault() {
+        // Stubbed — filled in Task 18
     }
 }

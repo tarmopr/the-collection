@@ -13,6 +13,13 @@ namespace Story {
     ]
 
     export function showMemory(index: number) {
+        if (index === 0) {
+            game.showLongText(
+                "SPECIMEN #47\nACQUIRED: VOLUNTARY TRANSFER\n\nThat is what the label says. It does not feel voluntary.",
+                DialogLayout.Bottom
+            )
+            return
+        }
         if (memoriesFound[index]) {
             game.showLongText("You have already recovered this memory.", DialogLayout.Bottom)
             return
