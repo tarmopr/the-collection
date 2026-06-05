@@ -137,7 +137,14 @@ namespace Rooms {
     }
 
     function spawnGreenhouse(keyIndex: number) {
-        // Stubbed — implemented in Task 16
+        // Memory trigger: wilted flower pot with field notes
+        spawnInteractable(48, 80, ObjectKind.Memory, 5)
+        // Scare trigger: Collector's gardening journal
+        spawnInteractable(96, 80, ObjectKind.ScareOnly, 0)
+        // Specimen jar tangled in roots
+        spawnInteractable(148, 64, ObjectKind.Jar, 5)
+        // Room key on plant hook
+        spawnInteractable(112, 48, ObjectKind.Key, keyIndex)
     }
 
     function spawnRecords(keyIndex: number) {
