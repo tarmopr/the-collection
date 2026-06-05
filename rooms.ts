@@ -126,7 +126,14 @@ namespace Rooms {
     }
 
     function spawnGallery(keyIndex: number) {
-        // Stubbed — implemented in Task 15
+        // Memory trigger: newspaper clipping in display case
+        spawnInteractable(48, 64, ObjectKind.Memory, 4)
+        // Scare trigger: visitor's book on pedestal
+        spawnInteractable(96, 64, ObjectKind.ScareOnly, 0)
+        // Specimen jar in glass case (smashing also triggers scare — handled by freeSpecimen)
+        spawnInteractable(140, 48, ObjectKind.Jar, 4)
+        // Room key in newspaper clipping case
+        spawnInteractable(56, 64, ObjectKind.Key, keyIndex)
     }
 
     function spawnGreenhouse(keyIndex: number) {
