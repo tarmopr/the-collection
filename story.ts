@@ -42,4 +42,28 @@ namespace Story {
             DialogLayout.Bottom
         )
     }
+
+    export function showEnding(memories: number, specimens: number) {
+        let title = ""
+        let text = ""
+        if (memories === 8 && specimens === 7) {
+            title = "TRUE ENDING"
+            text = "You climb into daylight. Elara Voss. Botanist. You remember everything — and you left no one behind."
+        } else if (memories >= 6) {
+            title = "BITTERSWEET"
+            text = "You climb into daylight knowing who you were. The jars you left sealed will stay sealed. That weight is yours now too."
+        } else if (specimens >= 5) {
+            title = "HOLLOW FREEDOM"
+            text = "You freed them. But standing in the light, you still don't know your own name. The estate kept that for itself."
+        } else {
+            title = "BARE ESCAPE"
+            text = "You're out. You're alive. You don't know who you were, and you left the others behind. The Collector's collection is still intact."
+        }
+        game.splash(title, "")
+        game.showLongText(text, DialogLayout.Full)
+        game.showLongText(
+            "Memories recovered: " + memories + " / 8\nSpecimens freed: " + specimens + " / 7",
+            DialogLayout.Full
+        )
+    }
 }

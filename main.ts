@@ -173,5 +173,8 @@ function playerCaught() {
 }
 
 function triggerEnding() {
-    // stubbed — implemented in Task 11
+    transitions.fadeToBlack(800)
+    pause(800)
+    Story.showEnding(memoriesCount, specimensCount)
+    game.over(true)
 }
