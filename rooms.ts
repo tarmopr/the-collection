@@ -82,7 +82,43 @@ namespace Rooms {
     }
 
     function spawnMiddleRoom(name: string, keyIndex: number) {
-        // Stubbed — filled in Tasks 12-17
+        if (name === "specimenHall")    spawnSpecimenHall(keyIndex)
+        else if (name === "study")      spawnStudy(keyIndex)
+        else if (name === "workshop")   spawnWorkshop(keyIndex)
+        else if (name === "gallery")    spawnGallery(keyIndex)
+        else if (name === "greenhouse") spawnGreenhouse(keyIndex)
+        else if (name === "records")    spawnRecords(keyIndex)
+    }
+
+    function spawnSpecimenHall(keyIndex: number) {
+        // Memory trigger: name card on floor
+        spawnInteractable(64, 48, ObjectKind.Memory, 1)
+        // Scare trigger: acquisition ledger on desk
+        spawnInteractable(140, 48, ObjectKind.ScareOnly, 0)
+        // Specimen jar on shelf
+        spawnInteractable(80, 32, ObjectKind.Jar, 1)
+        // Key under the ledger (collected after scare)
+        spawnInteractable(140, 56, ObjectKind.Key, keyIndex)
+    }
+
+    function spawnStudy(keyIndex: number) {
+        // Stubbed — implemented in Task 13
+    }
+
+    function spawnWorkshop(keyIndex: number) {
+        // Stubbed — implemented in Task 14
+    }
+
+    function spawnGallery(keyIndex: number) {
+        // Stubbed — implemented in Task 15
+    }
+
+    function spawnGreenhouse(keyIndex: number) {
+        // Stubbed — implemented in Task 16
+    }
+
+    function spawnRecords(keyIndex: number) {
+        // Stubbed — implemented in Task 17
     }
 
     function spawnDeepVault() {
