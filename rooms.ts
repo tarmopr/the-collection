@@ -148,7 +148,14 @@ namespace Rooms {
     }
 
     function spawnRecords(keyIndex: number) {
-        // Stubbed — implemented in Task 17
+        // Memory trigger: folder #47 in filing cabinet
+        spawnInteractable(48, 64, ObjectKind.Memory, 6)
+        // Scare trigger: typewriter
+        spawnInteractable(96, 64, ObjectKind.ScareOnly, 0)
+        // Specimen jar (evidence box)
+        spawnInteractable(140, 32, ObjectKind.Jar, 6)
+        // Room key inside the #47 folder (same position as memory, slightly offset)
+        spawnInteractable(56, 64, ObjectKind.Key, keyIndex)
     }
 
     function spawnDeepVault() {
