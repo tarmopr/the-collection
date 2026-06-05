@@ -95,6 +95,10 @@ function handleObjectInteraction(obj: Rooms.RoomObject) {
             obj.sprite.destroy()
             Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
         }
+        // Workshop locket: memory AND scare chain
+        if (currentRoomIndex >= 1 && Rooms.roomOrder[currentRoomIndex - 1] === "workshop") {
+            Collector.triggerScare()
+        }
     } else if (obj.kind === Rooms.ObjectKind.ScareOnly) {
         Collector.triggerScare()
         obj.sprite.destroy()

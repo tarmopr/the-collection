@@ -115,7 +115,14 @@ namespace Rooms {
     }
 
     function spawnWorkshop(keyIndex: number) {
-        // Stubbed — implemented in Task 14
+        // Memory trigger: locket on floor (also triggers scare — handled in main.ts Memory branch)
+        spawnInteractable(80, 80, ObjectKind.Memory, 3)
+        // Cage key — data=97 (special: shows narrative text, needed to access jar)
+        spawnInteractable(48, 64, ObjectKind.Key, 97)
+        // Specimen jar in cage (near right wall)
+        spawnInteractable(140, 64, ObjectKind.Jar, 3)
+        // Room key on hook by exit
+        spawnInteractable(152, 64, ObjectKind.Key, keyIndex)
     }
 
     function spawnGallery(keyIndex: number) {
