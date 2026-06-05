@@ -26,6 +26,7 @@ namespace Story {
         }
         memoriesFound[index] = true
         memoriesCount++
+        music.play(music.stringPlayable("A4:1 C5:1", 200), music.PlaybackMode.UntilDone)
         game.setDialogFrame(img`
             1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
             1 . . . . . . . . . . . . . . 1

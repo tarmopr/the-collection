@@ -11,7 +11,12 @@ let roomSprites: Sprite[] = []
 const ROOM_ENTRY_X = 20
 const ROOM_ENTRY_Y = 60
 
-game.splash("THE COLLECTION", "You wake. Something is broken.")
+scene.setBackgroundColor(1)  // black background
+game.splash("THE COLLECTION", "")
+game.showLongText(
+    "You open your eyes.\n\nGlass. Amber fluid. A label: SPECIMEN #47.\n\nSomething is broken. You are out.",
+    DialogLayout.Full
+)
 startGame()
 
 function startGame() {
@@ -164,6 +169,11 @@ function playerCaught() {
     scene.cameraShake(6, 600)
     info.changeLifeBy(-1)
     if (info.life() <= 0) {
+        scene.cameraShake(8, 800)
+        pause(800)
+        effects.melt.startScreenEffect()
+        pause(600)
+        effects.melt.endScreenEffect()
         game.showLongText(
             "The Collector has returned you to the shelf.\n\nSpecimen #47. Back where you belong.",
             DialogLayout.Full

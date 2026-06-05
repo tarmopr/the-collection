@@ -14,7 +14,7 @@ namespace Collector {
         huntTimer = 0
         scene.cameraShake(4, 400)
         music.play(
-            music.stringPlayable("G2:2 F2:2 E2:2 D2:4", 80),
+            music.stringPlayable("C2:4 R:2 B1:4 R:2 A1:6 R:4", 60),
             music.PlaybackMode.LoopingInBackground
         )
         shadow = sprites.create(img`
