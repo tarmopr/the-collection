@@ -77,13 +77,14 @@ function showDoorInterstitial(doorNumber: number, locked: boolean) {
 
 function tryProgressToNextRoom() {
     const next = currentRoomIndex + 1
-    if (next > 7) {
-        // Already in Deep Vault — escape shaft is separate (Task 11)
-        return
-    }
-    // Door 1 (index 1) is always unlocked; others need the previous room's key
-    const needsKey = next > 1
-    const hasKey = needsKey ? keysHeld[next - 2] : true
+    if (next >= 8) return  // In Deep Vault — escape shaft handled separately
+
+    // Door 1 (going from waking room to first middle room) is always open
+    // Door N (going to middle room N) needs keysHeld[N-2]
+    // Door 7 (going from last middle room to deep vault) needs keysHeld[5]
+    const needsKey = next >= 2
+    const keyIndex = next - 2  // keysHeld[0] opens door 2, keysHeld[5] opens door 7
+    const hasKey = !needsKey || keysHeld[keyIndex]
     showDoorInterstitial(next, !hasKey)
 }
 
@@ -99,11 +100,31 @@ function handleObjectInteraction(obj: Rooms.RoomObject) {
         obj.sprite.destroy()
         Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
     } else if (obj.kind === Rooms.ObjectKind.Key) {
-        keysHeld[obj.data] = true
-        music.play(music.stringPlayable("C5:1 E5:1 G5:2", 180), music.PlaybackMode.UntilDone)
-        game.splash("Key found", "A door in this estate will open.")
-        obj.sprite.destroy()
-        Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+        if (obj.data === 97) {
+            // Cage key (Workshop) — narrative item only
+            game.showLongText("A rusted cage key. Something inside the cage is still.", DialogLayout.Bottom)
+            obj.sprite.destroy()
+            Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+        } else if (obj.data === 98) {
+            // Bookshelf key (Study) — narrative item, unlocks display case
+            game.showLongText("A small brass key. It fits the display case lock.", DialogLayout.Bottom)
+            obj.sprite.destroy()
+            Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+        } else if (obj.data === 99) {
+            // Escape key (Deep Vault)
+            hasEscapeKey = true
+            music.play(music.stringPlayable("C5:1 E5:1 G5:1 C6:3", 180), music.PlaybackMode.UntilDone)
+            game.splash("Escape key found", "The shaft at the heart of the vault...")
+            obj.sprite.destroy()
+            Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+        } else {
+            // Normal door key
+            keysHeld[obj.data] = true
+            music.play(music.stringPlayable("C5:1 E5:1 G5:2", 180), music.PlaybackMode.UntilDone)
+            game.splash("Key found", "A door in this estate will open.")
+            obj.sprite.destroy()
+            Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+        }
     } else if (obj.kind === Rooms.ObjectKind.Jar) {
         freeSpecimen(obj)
     } else if (obj.kind === Rooms.ObjectKind.EscapeShaft) {
