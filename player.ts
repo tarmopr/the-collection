@@ -32,7 +32,20 @@ namespace Player {
     }
 
     export function interactWithNearest() {
-        // stubbed — implemented in Task 6
+        let closest: Rooms.RoomObject = null
+        let closestDist = 9999
+        for (const obj of Rooms.activeObjects) {
+            if (!obj.sprite || obj.sprite.isDestroyed()) continue
+            const dx = obj.sprite.x - playerSprite.x
+            const dy = obj.sprite.y - playerSprite.y
+            const dist = Math.sqrt(dx * dx + dy * dy)
+            if (dist < 24 && dist < closestDist) {
+                closestDist = dist
+                closest = obj
+            }
+        }
+        if (!closest) return
+        handleObjectInteraction(closest)
     }
 
     export function playerOnSafeZone(): boolean {

@@ -87,6 +87,46 @@ function tryProgressToNextRoom() {
     showDoorInterstitial(next, !hasKey)
 }
 
+function handleObjectInteraction(obj: Rooms.RoomObject) {
+    if (obj.kind === Rooms.ObjectKind.Memory) {
+        Story.showMemory(obj.data)
+        if (obj.data !== 0) {
+            obj.sprite.destroy()
+            Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+        }
+    } else if (obj.kind === Rooms.ObjectKind.ScareOnly) {
+        Collector.triggerScare()
+        obj.sprite.destroy()
+        Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+    } else if (obj.kind === Rooms.ObjectKind.Key) {
+        keysHeld[obj.data] = true
+        music.play(music.stringPlayable("C5:1 E5:1 G5:2", 180), music.PlaybackMode.UntilDone)
+        game.splash("Key found", "A door in this estate will open.")
+        obj.sprite.destroy()
+        Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+    } else if (obj.kind === Rooms.ObjectKind.Jar) {
+        freeSpecimen(obj)
+    } else if (obj.kind === Rooms.ObjectKind.EscapeShaft) {
+        if (hasEscapeKey) {
+            triggerEnding()
+        } else {
+            game.showLongText("The shaft is sealed. You need to find the escape key.", DialogLayout.Bottom)
+        }
+    }
+}
+
+function freeSpecimen(obj: Rooms.RoomObject) {
+    specimensCount++
+    obj.sprite.destroy()
+    Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
+    music.play(music.stringPlayable("G4:1 A4:1 B4:1 C5:2", 160), music.PlaybackMode.UntilDone)
+    game.showLongText(
+        "Freed: " + specimensCount + "/7 specimens.\n\nA sound. Somewhere above you, something stirs.",
+        DialogLayout.Bottom
+    )
+    Collector.triggerScare()
+}
+
 function playerCaught() {
     // stubbed — implemented in Task 8
 }
