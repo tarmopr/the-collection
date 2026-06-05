@@ -20,7 +20,6 @@ namespace Player {
             . . . . . . . . . . . . . . . .
         `, SpriteKind.Player)
         playerSprite.setPosition(ROOM_ENTRY_X, ROOM_ENTRY_Y)
-        playerSprite.setStayInScreen(false)
         scene.cameraFollowSprite(playerSprite)
 
         controller.moveSprite(playerSprite, 60, 60)

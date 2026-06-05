@@ -50,6 +50,9 @@ function loadRoomByName(name: string) {
     else if (name === "gallery")      tiles.setTilemap(assets.tilemap`gallery`)
     else if (name === "greenhouse")   tiles.setTilemap(assets.tilemap`greenhouse`)
     else if (name === "records")      tiles.setTilemap(assets.tilemap`records`)
+    else {
+        game.showLongText("Error: unknown room " + name, DialogLayout.Bottom)
+    }
 }
 
 function destroyRoomSprites() {
