@@ -1,0 +1,16 @@
+{
+    "name": "The Collection",
+    "description": "Horror-mystery exploration. You are Specimen #47.",
+    "dependencies": {
+        "device": "*"
+    },
+    "files": [
+        "main.ts",
+        "rooms.ts",
+        "collector.ts",
+        "player.ts",
+        "story.ts"
+    ],
+    "supportedTargets": ["arcade"],
+    "targetVersions": {}
+}
