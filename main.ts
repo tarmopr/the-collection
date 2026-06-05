@@ -15,7 +15,7 @@ game.splash("THE COLLECTION", "You wake. Something is broken.")
 startGame()
 
 function startGame() {
-    for (let i = 0; i < 8; i++) memoriesFound.push(false)
+    for (let i = 0; i < 9; i++) memoriesFound.push(false)
     for (let i = 0; i < 7; i++) keysHeld.push(false)
     memoriesCount = 0
     specimensCount = 0

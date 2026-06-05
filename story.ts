@@ -13,6 +13,33 @@ namespace Story {
     ]
 
     export function showMemory(index: number) {
-        // stubbed — implemented in Task 9
+        if (memoriesFound[index]) {
+            game.showLongText("You have already recovered this memory.", DialogLayout.Bottom)
+            return
+        }
+        memoriesFound[index] = true
+        memoriesCount++
+        game.setDialogFrame(img`
+            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 . . . . . . . . . . . . . . 1
+            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+        `)
+        game.showLongText(
+            "Memory " + memoriesCount + " of 8\n\n" + FRAGMENTS[index],
+            DialogLayout.Bottom
+        )
     }
 }
