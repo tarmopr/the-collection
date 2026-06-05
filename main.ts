@@ -36,7 +36,10 @@ function startGame() {
 
 function loadRoom(index: number) {
     isTransitioning = true
-    screenTransitions.startTransition(screenTransitions.Dissolve, 350, false, true)
+    screenTransitions.clearScreenTransition()
+    screenTransitions.startTransition(screenTransitions.Horizontal, 350, false, false)
+    pause(350)
+
     destroyRoomSprites()
     if (index === 0) {
         tiles.setTilemap(assets.tilemap`wakingRoom`)
@@ -53,8 +56,14 @@ function loadRoom(index: number) {
     scene.onOverlapTile(SpriteKind.Player, assets.tile`exitPoint`, function (sprite, location) {
         tryProgressToNextRoom()
     })
-    screenTransitions.startTransition(screenTransitions.Dissolve, 350, true, true)
-    isTransitioning = false
+
+    screenTransitions.clearScreenTransition()
+    screenTransitions.startTransition(screenTransitions.Horizontal, 350, true, false)
+
+    control.runInParallel(function () {
+        pause(350)
+        isTransitioning = false
+    })
 }
 
 function loadRoomByName(name: string) {
@@ -202,7 +211,9 @@ function playerCaught() {
 }
 
 function triggerEnding() {
-    screenTransitions.startTransition(screenTransitions.Dissolve, 800, false, true)
+    screenTransitions.clearScreenTransition()
+    screenTransitions.startTransition(screenTransitions.Horizontal, 800, false, false)
+    pause(800)
     Story.showEnding(memoriesCount, specimensCount)
     game.over(true)
 }
