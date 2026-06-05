@@ -7,6 +7,8 @@ let specimensCount = 0
 let keysHeld: boolean[] = []
 let hasEscapeKey = false
 let roomSprites: Sprite[] = []
+let isTransitioning = false
+
 
 const ROOM_ENTRY_X = 20
 const ROOM_ENTRY_Y = 60
@@ -33,6 +35,7 @@ function startGame() {
 }
 
 function loadRoom(index: number) {
+    isTransitioning = true
     screenTransitions.startTransition(screenTransitions.Dissolve, 350, false, true)
     destroyRoomSprites()
     if (index === 0) {
@@ -51,6 +54,7 @@ function loadRoom(index: number) {
         tryProgressToNextRoom()
     })
     screenTransitions.startTransition(screenTransitions.Dissolve, 350, true, true)
+    isTransitioning = false
 }
 
 function loadRoomByName(name: string) {
@@ -73,6 +77,10 @@ function destroyRoomSprites() {
 function showDoorInterstitial(doorNumber: number, locked: boolean) {
     if (locked) {
         game.splash("DOOR " + doorNumber + " — LOCKED", "You need a key.")
+        if (playerSprite) {
+            playerSprite.x -= 20
+        }
+        isTransitioning = false
     } else {
         game.splash("DOOR " + doorNumber, "Press A to enter.")
         loadRoom(doorNumber)
@@ -80,8 +88,14 @@ function showDoorInterstitial(doorNumber: number, locked: boolean) {
 }
 
 function tryProgressToNextRoom() {
+    if (isTransitioning) return
+    isTransitioning = true
+
     const next = currentRoomIndex + 1
-    if (next >= 8) return  // In Deep Vault — escape shaft handled separately
+    if (next >= 8) {
+        isTransitioning = false
+        return  // In Deep Vault — escape shaft handled separately
+    }
 
     // Door 1 (going from waking room to first middle room) is always open
     // Door N (going to middle room N) needs keysHeld[N-2]
