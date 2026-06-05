@@ -51,6 +51,12 @@ namespace Collector {
         state = State.Dormant
     }
 
+    export function triggerScareExtended() {
+        if (state !== State.Dormant) return
+        triggerScare()
+        huntTimer = -4000  // effectively 12s total (8000 + 4000ms offset)
+    }
+
     game.onUpdateInterval(200, function () {
         if (state !== State.Hunting || !shadow) return
         huntTimer += 200

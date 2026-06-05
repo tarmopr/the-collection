@@ -159,6 +159,15 @@ namespace Rooms {
     }
 
     function spawnDeepVault() {
-        // Stubbed — filled in Task 18
+        // Memory trigger 1: engraving on stone plinth
+        spawnInteractable(80, 64, ObjectKind.Memory, 7)
+        // Memory trigger 2 + scare: oldest journal (fragment 8 triggers extended scare via main.ts Memory branch)
+        spawnInteractable(88, 64, ObjectKind.Memory, 8)
+        // Specimen jar #7 in oldest display case
+        spawnInteractable(148, 64, ObjectKind.Jar, 7)
+        // Escape key in carved plinth recess
+        spawnInteractable(80, 72, ObjectKind.Key, 99)
+        // Escape shaft
+        spawnInteractable(168, 64, ObjectKind.EscapeShaft, 0)
     }
 }

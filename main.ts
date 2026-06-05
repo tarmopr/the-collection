@@ -46,6 +46,11 @@ function loadRoom(index: number) {
     scene.onOverlapTile(SpriteKind.Player, assets.tile`exitPoint`, function (sprite, location) {
         tryProgressToNextRoom()
     })
+    if (index === 7) {
+        shadowcasting.setLightRadius(playerSprite, 4)
+    } else {
+        shadowcasting.setLightRadius(playerSprite, 5)
+    }
     transitions.fadeFromBlack(350)
 }
 
@@ -95,8 +100,11 @@ function handleObjectInteraction(obj: Rooms.RoomObject) {
             obj.sprite.destroy()
             Rooms.activeObjects = Rooms.activeObjects.filter(o => o !== obj)
         }
-        // Workshop locket: memory AND scare chain
-        if (currentRoomIndex >= 1 && Rooms.roomOrder[currentRoomIndex - 1] === "workshop") {
+        // Deep Vault journal (fragment 8): extended scare
+        if (obj.data === 8) {
+            Collector.triggerScareExtended()
+        // Workshop locket (any memory interaction while in workshop room): regular scare
+        } else if (currentRoomIndex >= 1 && Rooms.roomOrder[currentRoomIndex - 1] === "workshop") {
             Collector.triggerScare()
         }
     } else if (obj.kind === Rooms.ObjectKind.ScareOnly) {
