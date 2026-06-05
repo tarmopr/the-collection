@@ -49,6 +49,7 @@ namespace Player {
     }
 
     export function playerOnSafeZone(): boolean {
-        return false // stubbed — implemented in Task 6
+        const loc = tiles.locationOfSprite(playerSprite)
+        return tiles.tileAtLocationEquals(loc, assets.tile`safeZone`)
     }
 }

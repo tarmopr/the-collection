@@ -3,11 +3,78 @@ namespace Collector {
     export enum State { Dormant, Hunting, Retreating }
     export let state = State.Dormant
 
+    let shadow: Sprite = null
+    let huntTimer = 0
+    const HUNT_DURATION = 8000   // ms before retreating if player stays hidden
+    const SHADOW_SPEED = 30
+
     export function triggerScare() {
-        // stubbed — implemented in Task 8
+        if (state !== State.Dormant) return
+        state = State.Hunting
+        huntTimer = 0
+        scene.cameraShake(4, 400)
+        music.play(
+            music.stringPlayable("G2:2 F2:2 E2:2 D2:4", 80),
+            music.PlaybackMode.LoopingInBackground
+        )
+        shadow = sprites.create(img`
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . 1 1 1 . . . . . . .
+            . . . . . 1 1 1 1 1 . . . . . .
+            . . . . . 1 1 1 1 1 . . . . . .
+            . . . . . 1 1 1 1 1 . . . . . .
+            . . . . . . 1 1 1 . . . . . . .
+            . . . . . 1 1 1 1 1 . . . . . .
+            . . . . 1 1 1 1 1 1 1 . . . . .
+            . . . . 1 1 1 1 1 1 1 . . . . .
+            . . . . 1 1 1 1 1 1 1 . . . . .
+            . . . . . 1 . . . 1 . . . . . .
+            . . . . . 1 . . . 1 . . . . . .
+            . . . . . 1 . . . 1 . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+        `, SpriteKind.Enemy)
+        const spawnX = playerSprite.x < 80 ? 140 : 20
+        const spawnY = playerSprite.y < 60 ? 100 : 20
+        shadow.setPosition(spawnX, spawnY)
     }
 
     export function retreatCollector() {
-        // stubbed — implemented in Task 8
+        state = State.Retreating
+        music.stopAllSounds()
+        if (shadow) {
+            shadow.destroy(effects.disintegrate, 500)
+            shadow = null
+        }
+        pause(600)
+        state = State.Dormant
     }
+
+    game.onUpdateInterval(200, function () {
+        if (state !== State.Hunting || !shadow) return
+        huntTimer += 200
+
+        if (Player.playerOnSafeZone()) {
+            if (huntTimer >= HUNT_DURATION) retreatCollector()
+            return
+        }
+
+        // Move shadow toward player
+        const dx = playerSprite.x - shadow.x
+        const dy = playerSprite.y - shadow.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist > 4) {
+            shadow.setPosition(
+                shadow.x + (dx / dist) * (SHADOW_SPEED * 0.2),
+                shadow.y + (dy / dist) * (SHADOW_SPEED * 0.2)
+            )
+        }
+
+        // Caught
+        if (shadow.overlapsWith(playerSprite)) {
+            retreatCollector()
+            playerCaught()
+        }
+    })
 }

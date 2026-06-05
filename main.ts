@@ -128,7 +128,27 @@ function freeSpecimen(obj: Rooms.RoomObject) {
 }
 
 function playerCaught() {
-    // stubbed — implemented in Task 8
+    scene.cameraShake(6, 600)
+    info.changeLifeBy(-1)
+    if (info.life() <= 0) {
+        game.showLongText(
+            "The Collector has returned you to the shelf.\n\nSpecimen #47. Back where you belong.",
+            DialogLayout.Full
+        )
+        pause(500)
+        // Full restart with new shuffle
+        for (let i = 0; i < 9; i++) memoriesFound[i] = false
+        for (let i = 0; i < 7; i++) keysHeld[i] = false
+        memoriesCount = 0
+        specimensCount = 0
+        hasEscapeKey = false
+        info.setLife(3)
+        Rooms.shuffleRooms()
+        loadRoom(0)
+    } else {
+        game.showLongText("You were found.\n\nLives remaining: " + info.life(), DialogLayout.Bottom)
+        playerSprite.setPosition(ROOM_ENTRY_X, ROOM_ENTRY_Y)
+    }
 }
 
 function triggerEnding() {
