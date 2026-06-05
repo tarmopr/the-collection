@@ -102,7 +102,16 @@ namespace Rooms {
     }
 
     function spawnStudy(keyIndex: number) {
-        // Stubbed — implemented in Task 13
+        // Memory trigger: letters on desk
+        spawnInteractable(64, 64, ObjectKind.Memory, 2)
+        // Scare trigger: portrait on wall
+        spawnInteractable(128, 48, ObjectKind.ScareOnly, 0)
+        // Bookshelf key — data=98 (special: shows narrative text, doesn't open doors)
+        spawnInteractable(32, 48, ObjectKind.Key, 98)
+        // Specimen jar in display case
+        spawnInteractable(128, 64, ObjectKind.Jar, 2)
+        // Room key inside display case
+        spawnInteractable(140, 64, ObjectKind.Key, keyIndex)
     }
 
     function spawnWorkshop(keyIndex: number) {
