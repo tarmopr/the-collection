@@ -21,6 +21,7 @@ namespace Player {
         `, SpriteKind.Player)
         playerSprite.setPosition(ROOM_ENTRY_X, ROOM_ENTRY_Y)
         scene.cameraFollowSprite(playerSprite)
+        shadowcasting.setLightRadius(playerSprite, 5)
 
         controller.moveSprite(playerSprite, 60, 60)
         playerSprite.setFlag(SpriteFlag.StayInScreen, false)
