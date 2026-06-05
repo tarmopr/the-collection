@@ -1,4 +1,8 @@
 // rooms.ts
+namespace SpriteKind {
+    export const Interactable = SpriteKind.create()
+}
+
 namespace Rooms {
     export const MIDDLE_ROOMS = [
         "specimenHall", "study", "workshop",

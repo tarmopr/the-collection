@@ -2,15 +2,20 @@
     "name": "The Collection",
     "description": "Horror-mystery exploration. You are Specimen #47.",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "arcade-shadowcasting": "github:riknoll/arcade-shadowcasting#v0.0.4",
+        "arcade-screen-transitions": "github:riknoll/arcade-screen-transitions#v0.1.0"
     },
     "files": [
         "main.ts",
         "rooms.ts",
         "collector.ts",
         "player.ts",
-        "story.ts"
+        "story.ts",
+        "assets.ts"
     ],
-    "supportedTargets": ["arcade"],
-    "targetVersions": {}
+    "targetVersions": {},
+    "supportedTargets": [
+        "arcade"
+    ]
 }

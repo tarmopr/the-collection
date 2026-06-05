@@ -33,8 +33,7 @@ function startGame() {
 }
 
 function loadRoom(index: number) {
-    transitions.fadeToBlack(350)
-    pause(350)
+    screenTransitions.startTransition(screenTransitions.Dissolve, 350, false, true)
     destroyRoomSprites()
     if (index === 0) {
         tiles.setTilemap(assets.tilemap`wakingRoom`)
@@ -51,12 +50,7 @@ function loadRoom(index: number) {
     scene.onOverlapTile(SpriteKind.Player, assets.tile`exitPoint`, function (sprite, location) {
         tryProgressToNextRoom()
     })
-    if (index === 7) {
-        shadowcasting.setLightRadius(playerSprite, 4)
-    } else {
-        shadowcasting.setLightRadius(playerSprite, 5)
-    }
-    transitions.fadeFromBlack(350)
+    screenTransitions.startTransition(screenTransitions.Dissolve, 350, true, true)
 }
 
 function loadRoomByName(name: string) {
@@ -171,9 +165,8 @@ function playerCaught() {
     if (info.life() <= 0) {
         scene.cameraShake(8, 800)
         pause(800)
-        effects.melt.startScreenEffect()
+        effects.melt.startScreenEffect(15, 40)
         pause(600)
-        effects.melt.endScreenEffect()
         game.showLongText(
             "The Collector has returned you to the shelf.\n\nSpecimen #47. Back where you belong.",
             DialogLayout.Full
@@ -195,8 +188,7 @@ function playerCaught() {
 }
 
 function triggerEnding() {
-    transitions.fadeToBlack(800)
-    pause(800)
+    screenTransitions.startTransition(screenTransitions.Dissolve, 800, false, true)
     Story.showEnding(memoriesCount, specimensCount)
     game.over(true)
 }

@@ -21,7 +21,7 @@ namespace Player {
         `, SpriteKind.Player)
         playerSprite.setPosition(ROOM_ENTRY_X, ROOM_ENTRY_Y)
         scene.cameraFollowSprite(playerSprite)
-        shadowcasting.setLightRadius(playerSprite, 5)
+        shadowcasting.setAnchor(playerSprite)
 
         controller.moveSprite(playerSprite, 60, 60)
         playerSprite.setFlag(SpriteFlag.StayInScreen, false)
@@ -35,7 +35,7 @@ namespace Player {
         let closest: Rooms.RoomObject = null
         let closestDist = 9999
         for (const obj of Rooms.activeObjects) {
-            if (!obj.sprite || obj.sprite.isDestroyed()) continue
+            if (!obj.sprite || (obj.sprite.flags & sprites.Flag.Destroyed)) continue
             const dx = obj.sprite.x - playerSprite.x
             const dy = obj.sprite.y - playerSprite.y
             const dist = Math.sqrt(dx * dx + dy * dy)
@@ -49,7 +49,7 @@ namespace Player {
     }
 
     export function playerOnSafeZone(): boolean {
-        const loc = tiles.locationOfSprite(playerSprite)
+        const loc = playerSprite.tilemapLocation()
         return tiles.tileAtLocationEquals(loc, assets.tile`safeZone`)
     }
 }
