@@ -41,6 +41,9 @@ function loadRoom(index: number) {
         playerSprite.setPosition(ROOM_ENTRY_X, ROOM_ENTRY_Y)
     }
     Rooms.spawnRoomObjects(index)
+    scene.onOverlapTile(SpriteKind.Player, assets.tile`exitPoint`, function (sprite, location) {
+        tryProgressToNextRoom()
+    })
 }
 
 function loadRoomByName(name: string) {
@@ -60,8 +63,25 @@ function destroyRoomSprites() {
     roomSprites = []
 }
 
+function showDoorInterstitial(doorNumber: number, locked: boolean) {
+    if (locked) {
+        game.splash("DOOR " + doorNumber + " — LOCKED", "You need a key.")
+    } else {
+        game.splash("DOOR " + doorNumber, "Press A to enter.")
+        loadRoom(doorNumber)
+    }
+}
+
 function tryProgressToNextRoom() {
-    // stubbed — implemented in Task 7
+    const next = currentRoomIndex + 1
+    if (next > 7) {
+        // Already in Deep Vault — escape shaft is separate (Task 11)
+        return
+    }
+    // Door 1 (index 1) is always unlocked; others need the previous room's key
+    const needsKey = next > 1
+    const hasKey = needsKey ? keysHeld[next - 2] : true
+    showDoorInterstitial(next, !hasKey)
 }
 
 function playerCaught() {
